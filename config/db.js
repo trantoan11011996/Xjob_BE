@@ -7,7 +7,7 @@ var connectDB = (function () {
 
   async function dbConfig() {
     // const dbUrl = "mongodb://localhost:27017/Xjob";
-    const dbUrl = "mongodb+srv://toantran9695:Toan%40123@cluster0.qawakok.mongodb.net/test"
+    const dbUrl = "mongodb+srv://toantran9695:Toan%40123@cluster0.qawakok.mongodb.net/Xjob?retryWrites=true&w=majority"
     instance = await moongose.connect(dbUrl);
     return instance;
   }
