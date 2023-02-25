@@ -1,13 +1,13 @@
 const moongose = require("mongoose");
 const { account } = require("../keys");
-moongose.set('strictQuery', false);
 
 var connectDB = (function () {
   let instance;
 
   async function dbConfig() {
     // const dbUrl = "mongodb://localhost:27017/Xjob";
-    const dbUrl = "mongodb+srv://cuongceo97:cuongCeoo97@xjob.eyvgqqm.mongodb.net/Xjob?retryWrites=true&w=majority"
+    const dbUrl =
+      "mongodb+srv://cuongceo97:cuongCeoo97@xjob.eyvgqqm.mongodb.net/Xjob?retryWrites=true&w=majority";
     instance = await moongose.connect(dbUrl);
     return instance;
   }
@@ -18,7 +18,7 @@ var connectDB = (function () {
         instance = dbConfig();
       }
 
-      console.log("Server Xjob is running ");
+      console.log("Server Xjob is running only one port");
       return instance;
     },
   };

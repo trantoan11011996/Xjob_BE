@@ -34,6 +34,7 @@ const createUser = asyncHandle(async (req, res) => {
       const user = await userModel.create(body);
 
       res.json({
+        id: user._id,
         email: user.email,
         role: user.role,
         token: generateToken(user._id),
@@ -58,7 +59,7 @@ const login = asyncHandle(async (req, res) => {
       }
       if (user.role == "candidate") {
         flagPopulate = "category";
-      } else if (user.role == "operationSector") {
+      } else if (user.role == "recruiter") {
         flagPopulate = "operationSector";
       } else {
         res.status(400);
@@ -232,7 +233,6 @@ const uploadSingleFile = asyncHandle(async (req, res, next) => {
     throw new Error("Upload file again!");
   }
 
-  // const user = await userModel.findById(req.userInfo._id);
   const user = await userModel.findById(req.userInfo._id);
   // const img = fs.readFileSync(req.file.path);
   // const encode_image = img.toString("base64");
@@ -244,7 +244,11 @@ const uploadSingleFile = asyncHandle(async (req, res, next) => {
   // };
 
   const pathImage = req.file.path;
-
+  // const image = await db.collection("Users").add({
+  //   imgUrl: pathImage,
+  // });
+  // const a = await db.collection("Users").get();
+  // console.log(a);
   user.avatar = pathImage;
   await user.save();
 
@@ -279,7 +283,8 @@ const listRecruiter = asyncHandle(async (req, res) => {
     .find(obj)
     .populate("operationSector")
     .skip(pageSize * (page - 1))
-    .limit(pageSize);
+    .limit(pageSize)
+    .select("-password");
   const countDoc = await userModel.countDocuments(obj);
 
   res.json({ countDoc, rcts });
@@ -289,7 +294,7 @@ const detailRecruiter = asyncHandle(async (req, res) => {
   const rctId = req.params.id;
   const rct = await userModel
     .findById(rctId)
-    .populate("operationSector")
+    .populate([{ path: "operationSector" }])
     .select("-password");
   res.json(rct);
 });
@@ -298,7 +303,11 @@ const listJob = asyncHandle(async (req, res) => {
   const id = req.params.id;
   const rcms = await recruimentModel
     .find({ name: id })
-    .populate([{ path: "location", select: "name" }, { path: "category" }]);
+    .populate([
+      { path: "name", select: "avatar" },
+      { path: "location" },
+      { path: "category" },
+    ]);
   res.json(rcms);
 });
 

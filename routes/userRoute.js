@@ -101,6 +101,7 @@ const storage = multer.diskStorage({
     // tạo tên file = thời gian hiện tại nối với số ngẫu nhiên => tên file chắc chắn không bị trùng
     const filename = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, filename + "-" + file.originalname);
+    // cb(null, file.originalname);
   },
 });
 //Khởi tạo middleware với cấu hình trên, lưu trên local của server khi dùng multer
