@@ -1,6 +1,6 @@
 module.exports = {
   account:
-    "cuongceo97:cuongCeoo97@xjob.eyvgqqm.mongodb.net/Xjob?retryWrites=true&w=majority",
+    "mongodb+srv://toantran9695:Toan%40123@cluster0.qawakok.mongodb.net/Xjob?retryWrites=true&w=majority%22",
 };
 
 
